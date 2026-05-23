@@ -33,7 +33,7 @@ async def test_ingest_jsonl(session, tmp_path):
 async def test_ingest_duplicate_skipped(session, tmp_path):
     jsonl_file = tmp_path / "dup.jsonl"
     jsonl_file.write_text('{"text": "Duplicate content test."}\n' * 3)
-    fake_embeddings = [[0.1] * 1536] * 10
+    fake_embeddings = [[0.1] * 1024] * 10
 
     with patch(
         "src.pipeline.ingestion_pipeline.embed_texts", new=AsyncMock(return_value=fake_embeddings)
