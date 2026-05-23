@@ -3,6 +3,7 @@ from collections.abc import AsyncGenerator
 
 import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.pool import NullPool
 
 from src.db.models import Base
 
@@ -18,7 +19,7 @@ os.environ.setdefault("MLFLOW_TRACKING_URI", "sqlite:///test_mlflow.db")
 async def engine():
     from src.config import settings
 
-    eng = create_async_engine(settings.database_url, echo=False)
+    eng = create_async_engine(settings.database_url, echo=False, poolclass=NullPool)
     async with eng.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield eng
@@ -27,7 +28,7 @@ async def engine():
     await eng.dispose()
 
 
-@pytest_asyncio.fixture(loop_scope="session", scope="session")
+@pytest_asyncio.fixture(loop_scope="session")
 async def session(engine) -> AsyncGenerator[AsyncSession, None]:
     session_factory = async_sessionmaker(engine, expire_on_commit=False)
     async with session_factory() as s:
