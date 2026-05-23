@@ -30,6 +30,7 @@ async def engine():
 
 @pytest_asyncio.fixture(loop_scope="session", scope="session")
 async def session(engine) -> AsyncGenerator[AsyncSession, None]:
-    session_factory = async_sessionmaker(engine, expire_on_commit=False)
-    async with session_factory() as s:
-        yield s
+    session_factory = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
+    s = session_factory()
+    yield s
+    # NullPool closes connections after each operation; no explicit cleanup needed
