@@ -54,6 +54,7 @@ jobs:
     env:
       DATABASE_URL: postgresql+asyncpg://kg_user:testpassword@localhost:5432/knowledgeforge_test
       OPENROUTER_API_KEY: test-key
+      COHERE_API_KEY: test-cohere-key
       MLFLOW_TRACKING_URI: "sqlite:///mlflow_test.db"
     steps:
       - uses: actions/checkout@v4
@@ -81,10 +82,11 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install coverage
-      - run: python -c "
-          import xml.etree.ElementTree as ET;
-          tree = ET.parse('coverage.xml');
-          rate = float(tree.getroot().attrib['line-rate']) * 100;
-          print(f'Coverage: {rate:.1f}%');
+      - run: |
+          python -c "
+          import xml.etree.ElementTree as ET
+          tree = ET.parse('coverage.xml')
+          rate = float(tree.getroot().attrib['line-rate']) * 100
+          print('Coverage: {}%'.format(round(rate, 1)))
           exit(0 if rate >= 75 else 1)
           "
