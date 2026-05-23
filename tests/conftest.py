@@ -28,9 +28,8 @@ async def engine():
     await eng.dispose()
 
 
-@pytest_asyncio.fixture(loop_scope="session")
+@pytest_asyncio.fixture(loop_scope="session", scope="session")
 async def session(engine) -> AsyncGenerator[AsyncSession, None]:
     session_factory = async_sessionmaker(engine, expire_on_commit=False)
     async with session_factory() as s:
         yield s
-        await s.rollback()
