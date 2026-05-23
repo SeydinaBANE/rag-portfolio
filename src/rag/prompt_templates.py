@@ -19,7 +19,9 @@ DEFAULT_VERSION = "v1"
 
 def get_prompt(version: str = DEFAULT_VERSION) -> ChatPromptTemplate:
     system = PROMPT_VERSIONS.get(version, SYSTEM_V1)
-    return ChatPromptTemplate.from_messages([
-        ("system", system),
-        ("human", "Context:\n{context}\n\nQuestion: {question}"),
-    ])
+    return ChatPromptTemplate.from_messages(
+        [
+            ("system", system),
+            ("human", "Context:\n{context}\n\nQuestion: {question}"),
+        ]
+    )

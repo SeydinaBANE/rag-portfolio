@@ -25,7 +25,9 @@ class Document(Base):
     chunk_count: Mapped[int] = mapped_column(Integer, default=0)
     metadata_: Mapped[dict] = mapped_column("metadata", JSONB, default=dict)
 
-    chunks: Mapped[list["Chunk"]] = relationship("Chunk", back_populates="document", cascade="all, delete-orphan")
+    chunks: Mapped[list["Chunk"]] = relationship(
+        "Chunk", back_populates="document", cascade="all, delete-orphan"
+    )
 
 
 class Chunk(Base):
@@ -94,6 +96,4 @@ class EvalRun(Base):
     avg_context_prec: Mapped[float | None] = mapped_column(Float)
     avg_latency_ms: Mapped[float | None] = mapped_column(Float)
     num_questions: Mapped[int | None] = mapped_column(Integer)
-    ran_at: Mapped[datetime] = mapped_column(
-        TIMESTAMP(timezone=True), server_default=sqlfunc.now()
-    )
+    ran_at: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True), server_default=sqlfunc.now())

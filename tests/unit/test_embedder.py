@@ -19,6 +19,7 @@ async def test_embed_texts_returns_list():
         mock_get.return_value = mock_client
 
         from src.rag.embedder import embed_texts
+
         result = await embed_texts(["text1", "text2"])
 
     assert len(result) == 2
@@ -36,6 +37,7 @@ async def test_embed_query_returns_vector():
         mock_get.return_value = mock_client
 
         from src.rag.embedder import embed_query
+
         result = await embed_query("test question")
 
     assert isinstance(result, list)

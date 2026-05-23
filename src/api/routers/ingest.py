@@ -15,7 +15,12 @@ _jobs: dict[str, dict[str, Any]] = {}
 
 
 async def _run_ingest(job_id: str, sources: list[SourceSpec], session: AsyncSession) -> None:
-    _jobs[job_id] = {"status": "processing", "documents_ingested": 0, "chunks_created": 0, "errors": []}
+    _jobs[job_id] = {
+        "status": "processing",
+        "documents_ingested": 0,
+        "chunks_created": 0,
+        "errors": [],
+    }
     result = await ingest(session, sources, job_id)
     _jobs[job_id] = {
         "status": result.status,
@@ -37,8 +42,15 @@ async def start_ingest(
         for s in body.sources
     ]
     background_tasks.add_task(_run_ingest, job_id, specs, session)
-    _jobs[job_id] = {"status": "processing", "documents_ingested": 0, "chunks_created": 0, "errors": []}
-    return IngestStatus(job_id=job_id, status="processing", documents_ingested=0, chunks_created=0, errors=[])
+    _jobs[job_id] = {
+        "status": "processing",
+        "documents_ingested": 0,
+        "chunks_created": 0,
+        "errors": [],
+    }
+    return IngestStatus(
+        job_id=job_id, status="processing", documents_ingested=0, chunks_created=0, errors=[]
+    )
 
 
 @router.get("/status/{job_id}", response_model=IngestStatus)
