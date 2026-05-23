@@ -28,3 +28,4 @@ repos:
           - pydantic>=2.10.0
           - pydantic-settings>=2.7.0
           - types-beautifulsoup4
+          - mlflow>=3.1.0

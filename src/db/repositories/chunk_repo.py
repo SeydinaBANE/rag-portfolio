@@ -2,6 +2,7 @@ import uuid
 
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from src.db.models import Chunk, Document
 
@@ -21,6 +22,7 @@ async def search_similar(
             Chunk,
             text(f"1 - (embedding <=> '{vector_literal}'::vector) AS similarity"),
         )
+        .options(selectinload(Chunk.document))
         .where(Chunk.embedding.is_not(None))
         .order_by(text(f"embedding <=> '{vector_literal}'::vector"))
         .limit(top_k)

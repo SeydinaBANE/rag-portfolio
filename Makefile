@@ -1,4 +1,5 @@
 COMPOSE = docker compose -f docker/docker-compose.yml --env-file .env
+PYTHON  := $(shell [ -f .venv/bin/python ] && echo .venv/bin/python || echo python3)
 
 .PHONY: help install up down restart logs migrate seed eval dev test lint format typecheck clean
 
@@ -36,6 +37,9 @@ help:
 up:
 	$(COMPOSE) up -d
 
+build:
+	$(COMPOSE) up -d --build api
+
 down:
 	$(COMPOSE) down
 
@@ -61,34 +65,34 @@ install:
 	@echo "✅ Environnement prêt — activez avec : source .venv/bin/activate"
 
 dev:
-	uvicorn src.api.main:app --reload --port 8000
+	$(PYTHON) -m uvicorn src.api.main:app --reload --port 8000
 
 seed:
-	python scripts/seed_data.py
+	$(PYTHON) scripts/seed_data.py
 
 eval:
-	python scripts/run_eval.py
+	$(PYTHON) scripts/run_eval.py
 
 # ── Qualité ──────────────────────────────────────────────────────────────────
 
 test:
-	pytest tests/ -v
+	$(PYTHON) -m pytest tests/ -v
 
 test-unit:
-	pytest tests/unit/ -v
+	$(PYTHON) -m pytest tests/unit/ -v
 
 test-integration:
-	pytest tests/integration/ tests/api/ -v
+	$(PYTHON) -m pytest tests/integration/ tests/api/ -v
 
 lint:
-	ruff check src/ tests/
+	$(PYTHON) -m ruff check src/ tests/
 
 format:
-	ruff format src/ tests/
-	ruff check --fix src/ tests/
+	$(PYTHON) -m ruff format src/ tests/
+	$(PYTHON) -m ruff check --fix src/ tests/
 
 typecheck:
-	mypy src/ --ignore-missing-imports
+	$(PYTHON) -m mypy src/ --ignore-missing-imports
 
 check: lint typecheck test
 

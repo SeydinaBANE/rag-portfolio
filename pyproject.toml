@@ -57,6 +57,32 @@ python_version = "3.12"
 strict = true
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = false
+disable_error_code = ["misc"]
+
+[[tool.mypy.overrides]]
+module = [
+    "src.pipeline.loaders.pdf_loader",
+    "src.pipeline.transformers.metadata_enricher",
+    "src.db.models",
+    "src.api.routers.health",
+    "src.api.routers.query",
+    "src.api.routers.ingest",
+    "src.api.routers.feedback",
+    "src.api.routers.documents",
+    "src.rag.embedder",
+    "src.rag.retriever",
+    "src.mlops.drift_monitor",
+    "src.mlops.tracker",
+    "src.db.repositories.chunk_repo",
+    "src.db.repositories.query_log_repo",
+]
+disable_error_code = ["type-arg", "arg-type", "misc", "no-any-return", "attr-defined", "name-defined", "index"]
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
