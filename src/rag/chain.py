@@ -11,14 +11,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 import mlflow
 from src.config import settings
-
-# langchain-openai reads OPENAI_API_KEY for the Bearer token
-os.environ["OPENAI_API_KEY"] = settings.openrouter_api_key
 from src.db.models import QueryLog
 from src.db.repositories.query_log_repo import insert_query_log
 from src.mlops.tracker import setup_mlflow
 from src.rag.prompt_templates import DEFAULT_VERSION, get_prompt
 from src.rag.retriever import RetrievedChunk, retrieve
+
+# langchain-openai reads OPENAI_API_KEY for the Bearer token
+os.environ["OPENAI_API_KEY"] = settings.openrouter_api_key
 
 
 @dataclass
