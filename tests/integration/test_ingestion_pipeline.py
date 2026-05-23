@@ -17,7 +17,7 @@ async def test_ingest_jsonl(session, tmp_path):
     jsonl_file = tmp_path / "test.jsonl"
     jsonl_file.write_text('{"text": "Python is a programming language."}\n' * 5)
 
-    fake_embeddings = [[0.1] * 1536] * 10  # enough for any chunk count
+    fake_embeddings = [[0.1] * 1024] * 10  # enough for any chunk count
 
     with patch(
         "src.pipeline.ingestion_pipeline.embed_texts", new=AsyncMock(return_value=fake_embeddings)
