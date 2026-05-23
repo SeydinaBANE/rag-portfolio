@@ -16,24 +16,14 @@ services:
       retries: 10
 
   mlflow:
-    image: python:3.12-slim
-    command: >
-      sh -c "pip install mlflow psycopg2-binary -q &&
-             mlflow server
-               --backend-store-uri postgresql://${POSTGRES_USER:-kg_user}:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DB:-knowledgeforge}
-               --default-artifact-root /mlflow/artifacts
-               --host 0.0.0.0 --port 5001 --dev"
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-kg_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB:-knowledgeforge}
+    build:
+      context: .
+      dockerfile: mlflow.Dockerfile
     volumes:
+      - mlflow_data:/mlflow
       - mlflow_artifacts:/mlflow/artifacts
     ports:
       - "5001:5001"
-    depends_on:
-      postgres:
-        condition: service_healthy
 
   api:
     build:
@@ -56,4 +46,5 @@ services:
 
 volumes:
   pgdata:
+  mlflow_data:
   mlflow_artifacts:

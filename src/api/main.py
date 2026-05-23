@@ -1,21 +1,15 @@
 from contextlib import asynccontextmanager
 from collections.abc import AsyncGenerator
 
-import mlflow
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routers import documents, feedback, health, ingest, query
-from src.config import settings
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    try:
-        mlflow.set_tracking_uri(settings.mlflow_tracking_uri)
-        mlflow.set_experiment(settings.mlflow_experiment_name)
-    except Exception:
-        pass  # MLflow may still be starting; will connect on first request
+    # MLflow is configured lazily via tracker.py — not at startup to avoid blocking
     yield
 
 
