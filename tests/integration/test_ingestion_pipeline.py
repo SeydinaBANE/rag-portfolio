@@ -3,13 +3,15 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
+pytestmark = pytest.mark.asyncio(loop_scope="session")
+
 os.environ.setdefault("OPENROUTER_API_KEY", "test-key")
 os.environ.setdefault(
     "DATABASE_URL", "postgresql+asyncpg://kg_user:testpassword@localhost:5432/knowledgeforge_test"
 )
 os.environ.setdefault("MLFLOW_TRACKING_URI", "sqlite:///test_mlflow.db")
 
-from src.pipeline.ingestion_pipeline import SourceSpec, ingest
+from src.pipeline.ingestion_pipeline import SourceSpec, ingest  # noqa: E402
 
 
 @pytest.mark.asyncio
