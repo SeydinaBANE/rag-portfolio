@@ -11,8 +11,11 @@ from src.config import settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    mlflow.set_tracking_uri(settings.mlflow_tracking_uri)
-    mlflow.set_experiment(settings.mlflow_experiment_name)
+    try:
+        mlflow.set_tracking_uri(settings.mlflow_tracking_uri)
+        mlflow.set_experiment(settings.mlflow_experiment_name)
+    except Exception:
+        pass  # MLflow may still be starting; will connect on first request
     yield
 
 

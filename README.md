@@ -44,7 +44,7 @@ curl -X POST http://localhost:8000/api/v1/query \
   -d '{"question": "How does pgvector handle approximate nearest neighbor search?"}'
 
 # 5. Ouvrir le dashboard MLflow
-open http://localhost:5000
+open http://localhost:5001
 ```
 
 ## API

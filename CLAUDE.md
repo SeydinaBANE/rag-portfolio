@@ -47,7 +47,7 @@ Répertoire racine : `/Users/baneseydina/Desktop/projet-1`
 OPENROUTER_API_KEY=sk-or-...
 POSTGRES_PASSWORD=...
 DATABASE_URL=postgresql+asyncpg://kg_user:PASSWORD@localhost:5432/knowledgeforge
-MLFLOW_TRACKING_URI=http://localhost:5000
+MLFLOW_TRACKING_URI=http://localhost:5001
 ```
 
 ## Commandes fréquentes

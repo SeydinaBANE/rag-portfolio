@@ -5,7 +5,8 @@ import unicodedata
 def clean_text(text: str) -> str:
     """Normalize unicode, strip excessive whitespace, remove control characters."""
     text = unicodedata.normalize("NFKC", text)
-    # Remove non-printable control characters except newlines and tabs
+    # Remove null bytes and non-printable control characters except newlines and tabs
+    text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
     text = re.sub(r"[^\S\n\t ]+", " ", text)
     text = re.sub(r"[ \t]+", " ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
