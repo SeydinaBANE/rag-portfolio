@@ -1,10 +1,10 @@
 """Detect quality drift by comparing recent query metrics against baseline."""
+
 import structlog
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import mlflow
-
 from src.config import settings
 from src.db.models import QueryLog
 

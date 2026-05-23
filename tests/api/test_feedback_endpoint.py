@@ -1,13 +1,14 @@
 import os
 import uuid
-from unittest.mock import AsyncMock, MagicMock, patch
-from datetime import datetime, timezone
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from httpx import ASGITransport, AsyncClient
 
 os.environ.setdefault("OPENROUTER_API_KEY", "test-key")
-os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://kg_user:testpassword@localhost:5432/knowledgeforge_test")
+os.environ.setdefault(
+    "DATABASE_URL", "postgresql+asyncpg://kg_user:testpassword@localhost:5432/knowledgeforge_test"
+)
 os.environ.setdefault("MLFLOW_TRACKING_URI", "sqlite:///test_mlflow.db")
 
 
@@ -25,8 +26,8 @@ async def test_feedback_invalid_rating():
 
 @pytest.mark.asyncio
 async def test_feedback_not_found_log():
-    from src.api.main import app
     from src.api.dependencies import get_session
+    from src.api.main import app
 
     mock_session = AsyncMock()
 

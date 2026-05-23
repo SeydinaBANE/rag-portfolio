@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 
 def enrich(
@@ -14,5 +14,5 @@ def enrich(
         "doc_type": doc_type,
         "chunk_index": chunk_index,
         "total_chunks": total_chunks,
-        "ingested_at": datetime.now(timezone.utc).isoformat(),
+        "ingested_at": datetime.now(UTC).isoformat(),
     }
