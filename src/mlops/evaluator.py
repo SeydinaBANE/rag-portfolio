@@ -5,13 +5,13 @@ import json
 from pathlib import Path
 from typing import Any
 
+import mlflow
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from pydantic import SecretStr
 from sqlalchemy.ext.asyncio import AsyncSession
 
-import mlflow
 from src.config import settings
 from src.rag.chain import run_rag
 

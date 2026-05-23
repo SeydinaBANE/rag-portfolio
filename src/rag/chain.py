@@ -4,12 +4,12 @@ import time
 from dataclasses import dataclass
 from uuid import UUID
 
+import mlflow
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 from pydantic import SecretStr
 from sqlalchemy.ext.asyncio import AsyncSession
 
-import mlflow
 from src.config import settings
 from src.db.models import QueryLog
 from src.db.repositories.query_log_repo import insert_query_log

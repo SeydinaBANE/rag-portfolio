@@ -2,6 +2,7 @@ from collections.abc import Generator
 from contextlib import contextmanager
 
 import mlflow
+
 from src.config import settings
 
 
